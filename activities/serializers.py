@@ -27,3 +27,17 @@ class ActivitySerializer(serializers.ModelSerializer):
         if value < 0:
             raise serializers.ValidationError("Calories burned cannot be negative.")
         return value
+    
+class ActivitySummarySerializer(serializers.Serializer):
+    total_activities = serializers.IntegerField()
+    total_duration = serializers.IntegerField()
+    total_distance = serializers.DecimalField(max_digits=10, decimal_places=2)
+    total_calories = serializers.IntegerField()
+    average_duration = serializers.FloatField()
+
+class ActivityTrendSerializer(serializers.Serializer):
+    period = serializers.CharField()
+    total_duration = serializers.IntegerField()
+    total_distance = serializers.DecimalField(max_digits=10, decimal_places=2)
+    total_calories = serializers.IntegerField()
+    activity_count = serializers.IntegerField()
