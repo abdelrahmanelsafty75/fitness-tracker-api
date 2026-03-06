@@ -53,7 +53,9 @@ class Activity(models.Model):
 
     class Meta:
         db_table = 'activities'
-        
+        ordering = ['-date', '-created_at'] 
+        verbose_name = 'Activity'
+        verbose_name_plural = 'Activities'
 
     def __str__(self):
         return f"{self.user.username} - {self.activity_type} on {self.date}"
