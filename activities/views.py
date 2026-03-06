@@ -2,6 +2,9 @@ from .models import Activity
 from .serializers import ActivitySerializer
 from rest_framework import generics, permissions
 
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import ActivityFilter
 # make sure only the owner of the activity can view or edit it
 class IsOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -11,6 +14,11 @@ class ActivityListCreateView(generics.ListCreateAPIView):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = ActivityFilter
+    ordering_fields = ['date', 'duration', 'calories_burned', 'created_at']
+    ordering = ['-date'] 
 
     def get_queryset(self): # only return activities for the logged in user
         return self.queryset.filter(user=self.request.user)
